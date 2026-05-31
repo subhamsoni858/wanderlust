@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const express = require("express");
@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const MongoStore = require("connect-mongo").default;
-const dbUrl = process.env.ATLASDB_URL;
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const listingRouter = require("./routes/listing.js");
@@ -76,11 +76,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const port = process.env.PORT || 8080;
-app.listen(port, () => {
-  console.log(`app is listening on port ${port}`);
-});
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -106,4 +101,9 @@ app.use((err, req, res, next) => {
   let statusCode = err.statusCode || 500;
   let message = err.message || "Something went wrong";
   res.status(statusCode).render("error.ejs", { message });
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`app is listening on port ${port}`);
 });

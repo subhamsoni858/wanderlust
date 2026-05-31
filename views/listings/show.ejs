@@ -114,8 +114,8 @@
   </div>
   <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
-    const listing = <%- JSON.stringify(listing) %>;
-
+    const coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+    const listingLocation = "<%= listing.location %>";
   </script>
   <script src="/js/map.js"></script>
   <% } %>

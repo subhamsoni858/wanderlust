@@ -6,7 +6,7 @@
       <h3>Edit your listing</h3>
       <form
         method="POST"
-        action="/listings/<%=listing._id%>?_method=PUT "
+        action="/listings/<%=listing._id%>?_method=PUT"
         novalidate
         class="needs-validation"
         enctype="multipart/form-data"
@@ -31,7 +31,7 @@
           <div class="invalid-feedback">Description should be valid</div>
         </div>
         <div class="mb-3">
-          Orignial Listing Image
+          Original Listing Image
           <img src="<%= originalImageUrl%>" />
         </div>
         <div class="mb-3">
@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <lable for="location" class="form-label">Location</lable>
+          <label for="location" class="form-label">Location</label>
           <input
             name="listing[location]"
             value="<%=listing.location%>"
