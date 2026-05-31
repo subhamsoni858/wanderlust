@@ -85,6 +85,11 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 
+//root route
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 //all of listing route
 app.use("/listings", listingRouter);
 
