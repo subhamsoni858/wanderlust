@@ -9,8 +9,9 @@ body {
 }
 /* navbar */
 .navbar {
-  height: 5 rem;
+  min-height: 5rem;
   background-color: white;
+  z-index: 1030;
 }
 
 .fa-compass {
@@ -105,4 +106,9 @@ body {
 .show-card {
   padding-left: 0;
   padding-right: 0;
+}
+/* map */
+#map {
+  height: 400px;
+  width: 100%;
 }
