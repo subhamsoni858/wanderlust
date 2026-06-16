@@ -80,6 +80,12 @@
   </div>
 </div>
   <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% if (allListings.length === 0) { %>
+      <div class="col-12 mt-4 text-center">
+        <h4>No listings found <%- typeof q !== 'undefined' && q ? `matching "<b>${q}</b>"` : "" %></h4>
+        <p>Try searching for a different destination, or <a href="/listings">explore all listings</a>.</p>
+      </div>
+    <% } %>
     <% for (let listing of allListings) { %>
     <a href="/listings/<%= listing._id %>" class="listing-link">
       <div class="card col listing-card">
