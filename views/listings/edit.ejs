@@ -65,16 +65,33 @@
             <div class="invalid-feedback">Country should be valid</div>
           </div>
         </div>
-        <div class="mb-3">
-          <label for="location" class="form-label">Location</label>
-          <input
-            name="listing[location]"
-            value="<%=listing.location%>"
-            type="text"
-            class="form-control"
-            required
-          />
-          <div class="invalid-feedback">Location should be valid</div>
+        <div class="row">
+          <div class="mb-3 col-md-8">
+            <label for="location" class="form-label">Location</label>
+            <input
+              name="listing[location]"
+              value="<%=listing.location%>"
+              type="text"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">Location should be valid</div>
+          </div>
+          <div class="mb-3 col-md-4">
+            <label for="category" class="form-label">Category</label>
+            <select name="listing[category]" class="form-select">
+              <option value="" <%= !listing.category ? "selected" : "" %>>Select a category</option>
+              <option value="Trending" <%= listing.category === 'Trending' ? "selected" : "" %>>Trending</option>
+              <option value="Rooms" <%= listing.category === 'Rooms' ? "selected" : "" %>>Rooms</option>
+              <option value="Iconic Cities" <%= listing.category === 'Iconic Cities' ? "selected" : "" %>>Iconic Cities</option>
+              <option value="Mountains" <%= listing.category === 'Mountains' ? "selected" : "" %>>Mountains</option>
+              <option value="Castles" <%= listing.category === 'Castles' ? "selected" : "" %>>Castles</option>
+              <option value="Amazing pools" <%= listing.category === 'Amazing pools' ? "selected" : "" %>>Amazing pools</option>
+              <option value="Camping" <%= listing.category === 'Camping' ? "selected" : "" %>>Camping</option>
+              <option value="Farms" <%= listing.category === 'Farms' ? "selected" : "" %>>Farms</option>
+              <option value="Arctic" <%= listing.category === 'Arctic' ? "selected" : "" %>>Arctic</option>
+            </select>
+          </div>
         </div>
 
         <button class="btn btn-dark edit-btn mt-3">Edit</button>

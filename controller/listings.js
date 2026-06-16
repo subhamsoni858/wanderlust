@@ -1,22 +1,56 @@
 const Listing = require("../models/listing");
+const { cloudinary } = require("../cloudConfig.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-  let { q } = req.query;
+  let { q, category, minPrice, maxPrice, country, page } = req.query;
   let query = {};
+  
   if (q) {
-    query = {
-      $or: [
-        { title: { $regex: q, $options: "i" } },
-        { location: { $regex: q, $options: "i" } },
-        { country: { $regex: q, $options: "i" } }
-      ]
-    };
+    query.$or = [
+      { title: { $regex: q, $options: "i" } },
+      { location: { $regex: q, $options: "i" } },
+      { country: { $regex: q, $options: "i" } }
+    ];
   }
-  const allListings = await Listing.find(query);
-  res.render("listings/index.ejs", { allListings, q });
+  
+  if (category) {
+    query.category = category;
+  }
+  
+  if (country) {
+    query.country = { $regex: country, $options: "i" };
+  }
+  
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) query.price.$gte = Number(minPrice);
+    if (maxPrice) query.price.$lte = Number(maxPrice);
+  }
+
+  const allFilteredListings = await Listing.find(query);
+  
+  const limit = 9;
+  const currentPage = parseInt(page) || 1;
+  const skip = (currentPage - 1) * limit;
+  const totalListings = allFilteredListings.length;
+  const totalPages = Math.ceil(totalListings / limit) || 1;
+
+  const allListings = await Listing.find(query).skip(skip).limit(limit);
+  
+  res.render("listings/index.ejs", { 
+    allListings, 
+    allFilteredListings,
+    q, 
+    category, 
+    minPrice, 
+    maxPrice, 
+    country,
+    currentPage,
+    totalPages
+  });
 };
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");
@@ -85,6 +119,10 @@ module.exports.updateListing = async (req, res) => {
 };
 module.exports.deleteListing = async (req, res) => {
   let { id } = req.params;
+  const listing = await Listing.findById(id);
+  if (listing && listing.image && listing.image.filename) {
+    await cloudinary.uploader.destroy(listing.image.filename);
+  }
   await Listing.findByIdAndDelete(id);
 
   req.flash("success", "Listing Deleted");
