@@ -2,7 +2,7 @@ mapboxgl.accessToken = mapToken;
 
 const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v11',
+    style: 'mapbox://styles/mapbox/streets-v12',
     center: [78.9629, 20.5937], // Default center India
     zoom: 3
 });
